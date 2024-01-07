@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <title>SaπzメRach Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="navbar">
+	  <div class="logo">SaπzメRach♪</div>
+	  <u1>
+		 <li>Home</li>
+		 <li>About</li>
+		 <li>Contact</li>
+	  <u1>
+ </div>
+ <div class="coc">
+ 	<h1 id="welcome">Motivasi</h1>
+     <p>"Pendidikan Itu Sangat Penting Oleh Karena Itu Kejarlah Ilmu,dan Bukannya Seorang Wanita"<p>
+ </div>
+<div id="clock"></div>
+<img src="banner.png" alt="Banner" id="clock-gif">
+    <h2>Super Calculator</h2>
+
+    <div id="calculator">
+        <input type="text" id="display" readonly>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="appendToDisplay('/')">÷</button>
+        <button onclick="appendToDisplay('*')">×</button>
+        <button onclick="calculateSquared0()">^0</button>
+        <button onclick="calculateSquared()">^2</button>        
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="appendToDisplay('-')">-</button>
+        <button onclick="deleteLastChar()">DEL</button>                
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('+')">+</button>
+        <button onclick="toggleSign()">+/-</button>        
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendToDisplay('.')">.</button>
+        <button onclick="appendToDisplay('0')">0</button>        
+        <button onclick="setVariable('x')">X</button>
+        <button onclick="setVariable('y')">Y</button>              
+        <button onclick="setVariable('z')">Z</button>
+        <button onclick="calculateLog()">log</button>
+    </div>
+
+    <h2>Quadratic Equation Solver</h2>
+
+    <label for="a">Enter coefficient a:</label>
+    <input type="number" id="a" step="any">
+
+    <label for="b">Enter coefficient b:</label>
+    <input type="number" id="b" step="any">
+
+    <label for="c">Enter coefficient c:</label>
+    <input type="number" id="c" step="any">
+
+    <button onclick="solveQuadratic()">Solve Quadratic</button>
+
+    <h3>Quadratic Solutions:</h3>
+    <p id="quadraticSolution1"></p>
+    <p id="quadraticSolution2"></p>
+
+    <hr>
+
+    <label for="functionX">Enter x for f(x) = ax^2 + bx + c:</label>
+    <input type="number" id="functionX" step="any">
+
+    <button onclick="evaluateQuadraticFunction()">Evaluate Function</button>
+    <h3>Function Result:</h3>
+    <p id="functionResult"></p> 
+    
+
+  <h2>Exponent Calculator</h2>
+
+  <form id="calculatorForm">
+    <label for="base">Base:</label>
+    <input type="number" id="base" required>
+
+    <label for="exponent">Exponent:</label>
+    <input type="number" id="exponent" required>
+
+    <button type="button" onclick="calculateExponent()">Calculate</button>
+  </form>
+  <div id="result"></div>
+
+  <h2>Kalkulator Luas, Keliling, dan Volume Bangun Ruang</h2>
+
+  <form id="kalkulatorForm">
+    <label for="jenisBangun">Pilih Jenis Bangun:</label>
+    <select id="jenisBangun" onchange="tampilkanForm()">
+      <option value="persegi">Persegi</option>
+      <option value="lingkaran">Lingkaran</option>
+      <option value="balok">Balok</option>
+      <option value="tabung">Tabung</option>
+      <option value="bola">Bola</option>      
+      <option value="kerucut">Kerucut</option>            
+    </select>
+
+    <div id="formPersegi" style="display:none;">
+      <label for="sisiPersegi">Panjang Sisi Persegi:</label>
+      <input type="number" id="sisiPersegi" required>
+    </div>
+
+    <div id="formLingkaran" style="display:none;">
+      <label for="jariJariLingkaran">Jari-jari Lingkaran:</label>
+      <input type="number" id="jariJariLingkaran" required>
+    </div>
+
+    <div id="formBalok" style="display:none;">
+      <label for="panjangBalok">Panjang Balok:</label>
+      <input type="number" id="panjangBalok" required>
+
+      <label for="lebarBalok">Lebar Balok:</label>
+      <input type="number" id="lebarBalok" required>
+
+      <label for="tinggiBalok">Tinggi Balok:</label>
+      <input type="number" id="tinggiBalok" required>
+    </div>
+
+    <div id="formTabung" style="display:none;">
+      <label for="jariJariTabung">Jari-jari Tabung:</label>
+      <input type="number" id="jariJariTabung" required>
+
+      <label for="tinggiTabung">Tinggi Tabung:</label>
+      <input type="number" id="tinggiTabung" required>
+    </div>
+
+    <div id="formBola" style="display:none;">
+      <label for="jariJariBola">Jari-jari Bola:</label>
+      <input type="number" id="jariJariBola" required>
+    </div>
+
+    <div id="formKerucut" style="display:none;">
+      <label for="jarijariKerucut">Jari Jari Kerucut:</label>
+      <input type="number" id="jarijariKerucut" required>
+
+      <label for="tinggiKerucut">Tinggi Kerucut:</label>
+      <input type="number" id="tinggiKerucut" required>
+    </div>
+
+    <button type="button" onclick="hitung()">Hitung</button>
+  </form>
+
+  <div id="hasil"></div>
+    
+    <div id="history">
+        <h3>History</h3>
+        <ul id="history-list"></ul>
+    </div>
+
+    <script src="scripts.js"></script>    
+    <footer>
+        <p>&copy; 2024 SaπzメRach♪</p>
+    </footer>
+</body>
+</html>
