@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pengumpulan Tugas</title>
+  <style>
+    /* Space-themed background */
+    :root{--glass: rgba(255,255,255,0.06);--glass-2: rgba(255,255,255,0.03);--accent: rgba(173,216,230,0.12)}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#eaf6ff}
+    body{background: radial-gradient(ellipse at 10% 10%, #0b1220 0%, #05060a 40%, #03020b 100%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><g fill="white" opacity="0.9"><circle cx="10" cy="20" r="1"/><circle cx="30" cy="50" r="1"/><circle cx="200" cy="120" r="1"/><circle cx="400" cy="30" r="1"/><circle cx="600" cy="80" r="1"/><circle cx="750" cy="200" r="1"/><circle cx="120" cy="300" r="1"/><circle cx="320" cy="320" r="1"/><circle cx="500" cy="360" r="1"/><circle cx="700" cy="420" r="1"/></g></svg>') repeat;
+      background-blend-mode: overlay; padding:28px; box-sizing:border-box;
+    }
+    .container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:20px}
+    header{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}
+    h1{margin:0;font-size:20px;letter-spacing:0.6px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);backdrop-filter: blur(6px);padding:16px;border-radius:12px}
+
+    /* Form */
+    form{display:flex;flex-direction:column;gap:10px}
+    label{font-size:13px;opacity:0.9}
+    input[type=text], select, textarea{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:8px;color:#eaf6ff;font-size:14px}
+    textarea{min-height:80px;resize:vertical}
+    .file-row{display:flex;gap:8px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+    .btn-primary{background:linear-gradient(90deg,#6bb7ff,#8a6bff);color:#051025}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#eaf6ff}
+
+    /* Submissions list */
+    .list{display:flex;flex-direction:column;gap:12px;max-height:64vh;overflow:auto;padding-right:6px}
+    .item{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+    .thumb{width:120px;height:80px;border-radius:8px;object-fit:cover;background:#000;display:flex;align-items:center;justify-content:center}
+    .meta{flex:1}
+    .meta h3{margin:0 0 6px 0;font-size:15px}
+    .meta p{margin:0;font-size:13px;opacity:0.9}
+    .role-panel{display:flex;gap:8px;align-items:center}
+    .small{font-size:12px;opacity:0.8}
+
+    footer{grid-column:1/-1;text-align:center;margin-top:16px;color:rgba(234,246,255,0.6);font-size:13px}
+    @media(max-width:980px){.container{grid-template-columns:1fr;}.thumb{width:100px;height:72px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Pengumpulan Tugas</h1>
+      <div class="role-panel card" style="padding:8px">
+        <select id="roleSelect" aria-label="Pilih role">
+          <option value="student">Siswa (kirim tugas)</option>
+          <option value="guru">Guru (lihat tugas)</option>
+          <option value="admin">Admin (lihat & hapus)</option>
+        </select>
+        <button class="btn btn-ghost" id="btnLogin">Masuk</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2 style="margin-top:0">Kirim Tugas</h2>
+      <form id="submitForm">
+        <label>Nama</label>
+        <input type="text" id="nama" placeholder="Nama lengkap" required />
+
+        <label>Kelas</label>
+        <input type="text" id="kelas" placeholder="Contoh: XI DKV" required />
+
+        <label>Jurusan</label>
+        <input type="text" id="jurusan" placeholder="Contoh: Desain Komunikasi Visual" required />
+
+        <label>Catatan / Deskripsi (opsional)</label>
+        <textarea id="catatan" placeholder="Tulis catatan singkat untuk guru"></textarea>
+
+        <label>Upload Foto / Video (maks 50 MB, format jpg/png/mp4/webm)</label>
+        <div class="file-row">
+          <input type="file" id="fileInput" accept="image/*,video/*" />
+          <button type="button" class="btn btn-ghost" id="btnPreview">Preview</button>
+        </div>
+
+        <div id="previewArea" style="display:none;margin-top:8px"></div>
+
+        <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+          <button type="submit" class="btn btn-primary">Kirim Tugas</button>
+          <button type="button" class="btn btn-ghost" id="btnClear">Reset Form</button>
+        </div>
+      </form>
+
+      <p class="small" style="margin-top:10px">Catatan: data tersimpan di browser (localStorage). Admin/guru bisa melihat dan mengunduh file yang dikirim. Jika ingin menyimpan permanen, export secara manual.</p>
+    </section>
+
+    <aside class="card">
+      <h2 style="margin-top:0">Daftar Pengumpulan</h2>
+      <div id="submissionsArea" class="list small">
+        <!-- entries populated by JS -->
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <button id="btnExport" class="btn btn-ghost">Export JSON</button>
+        <button id="btnImport" class="btn btn-ghost">Import JSON</button>
+        <input type="file" id="importFile" style="display:none" accept="application/json" />
+      </div>
+    </aside>
+
+    <footer>Design: Tema Luar Angkasa</footer>
+  </div>
+
+  <script>
+    const LS_KEY = 'kumpul_tugas_v1';
+    const maxSizeBytes = 50 * 1024 * 1024; // 50 MB
+
+    const form = document.getElementById('submitForm');
+    const fileInput = document.getElementById('fileInput');
+    const previewArea = document.getElementById('previewArea');
+    const submissionsArea = document.getElementById('submissionsArea');
+    const roleSelect = document.getElementById('roleSelect');
+    const btnLogin = document.getElementById('btnLogin');
+    const btnPreview = document.getElementById('btnPreview');
+    const btnClear = document.getElementById('btnClear');
+    const btnExport = document.getElementById('btnExport');
+    const btnImport = document.getElementById('btnImport');
+    const importFile = document.getElementById('importFile');
+
+    let currentRole = 'student';
+
+    function loadSubmissions(){
+      try{
+        const raw = localStorage.getItem(LS_KEY);
+        return raw ? JSON.parse(raw) : [];
+      }catch(e){console.error(e);return []}
+    }
+    function saveSubmissions(list){
+      localStorage.setItem(LS_KEY, JSON.stringify(list));
+    }
+
+    function renderSubmissions(){
+      const list = loadSubmissions();
+      submissionsArea.innerHTML = '';
+      if(list.length===0){submissionsArea.innerHTML = '<div class="small">Belum ada yang mengirim tugas.</div>';return}
+
+      list.slice().reverse().forEach(entry=>{
+        const el = document.createElement('div'); el.className='item';
+        const thumb = document.createElement('div'); thumb.className='thumb';
+        if(entry.file && entry.file.type.startsWith('image')){
+          const img = document.createElement('img'); img.src = entry.file.data; img.className='thumb'; img.style.width='120px'; img.style.height='80px'; img.style.objectFit='cover'; thumb.appendChild(img);
+        } else if(entry.file && entry.file.type.startsWith('video')){
+          const vid = document.createElement('video'); vid.src = entry.file.data; vid.controls=true; vid.style.width='120px'; vid.style.height='80px'; vid.style.objectFit='cover'; thumb.appendChild(vid);
+        } else {
+          thumb.textContent = 'No file';
+        }
+
+        const meta = document.createElement('div'); meta.className='meta';
+        meta.innerHTML = `<h3>${escapeHtml(entry.nama || '')} <span style="font-weight:600;font-size:12px;opacity:0.8">(${escapeHtml(entry.kelas||'')})</span></h3>
+          <p>${escapeHtml(entry.jurusan||'')} • <span class="small">${new Date(entry.t).toLocaleString()}</span></p>
+          <p style="margin-top:6px">${escapeHtml(entry.catatan||'')}</p>`;
+
+        const controls = document.createElement('div'); controls.style.display='flex'; controls.style.flexDirection='column'; controls.style.gap='6px';
+        if(entry.file){
+          const vbtn = document.createElement('a'); vbtn.textContent='Buka/Download'; vbtn.className='btn btn-ghost'; vbtn.href = entry.file.data; vbtn.download = `${entry.nama||'tugas'}_${entry.t}`; vbtn.target='_blank'; controls.appendChild(vbtn);
+        }
+        if(currentRole==='admin'){
+          const del = document.createElement('button'); del.textContent='Hapus'; del.className='btn'; del.style.background='linear-gradient(90deg,#ff6b6b,#ff8a6b)'; del.onclick = ()=>{ if(confirm('Yakin mau hapus submission ini?')){ deleteSubmission(entry.id); }}; controls.appendChild(del);
+        }
+
+        el.appendChild(thumb); el.appendChild(meta); el.appendChild(controls);
+        submissionsArea.appendChild(el);
+      });
+    }
+
+    function deleteSubmission(id){
+      const list = loadSubmissions().filter(x=>x.id!==id);
+      saveSubmissions(list); renderSubmissions();
+    }
+
+    function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const nama = document.getElementById('nama').value.trim();
+      const kelas = document.getElementById('kelas').value.trim();
+      const jurusan = document.getElementById('jurusan').value.trim();
+      const catatan = document.getElementById('catatan').value.trim();
+      const file = fileInput.files[0];
+      if(!nama || !kelas || !jurusan){alert('Nama, kelas, dan jurusan harus diisi');return}
+
+      let fileObj = null;
+      if(file){
+        if(file.size>maxSizeBytes){alert('File terlalu besar (maks 50 MB)');return}
+        const data = await readFileAsDataURL(file);
+        fileObj = {name:file.name,type:file.type,size:file.size,data};
+      }
+
+      const list = loadSubmissions();
+      const entry = {id:cryptoRandomId(),nama,kelas,jurusan,catatan,file:fileObj,t:Date.now()};
+      list.push(entry); saveSubmissions(list);
+      alert('Tugas berhasil dikirim!');
+      form.reset(); previewArea.style.display='none'; renderSubmissions();
+    });
+
+    function cryptoRandomId(){return 'id_'+Date.now()+'_'+Math.random().toString(36).slice(2,9)}
+    function readFileAsDataURL(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+
+    btnPreview.addEventListener('click', async ()=>{
+      const file = fileInput.files[0];
+      if(!file){alert('Pilih file dulu');return}
+      if(file.size>maxSizeBytes){alert('File terlalu besar (maks 50 MB)');return}
+      const data = await readFileAsDataURL(file);
+      previewArea.innerHTML = '';
+      if(file.type.startsWith('image')){
+        const img = document.createElement('img'); img.src=data; img.style.maxWidth='100%'; img.style.borderRadius='8px'; previewArea.appendChild(img);
+      } else if(file.type.startsWith('video')){
+        const v = document.createElement('video'); v.src=data; v.controls=true; v.style.width='100%'; v.style.borderRadius='8px'; previewArea.appendChild(v);
+      } else {
+        previewArea.textContent = 'Preview tidak tersedia untuk jenis file ini.';
+      }
+      previewArea.style.display='block';
+    });
+
+    btnClear.addEventListener('click', ()=>{form.reset(); previewArea.style.display='none';});
+
+    btnLogin.addEventListener('click', ()=>{
+      const role = roleSelect.value;
+      if(role==='student'){
+        currentRole='student'; alert('Masuk sebagai siswa. Kamu bisa mengirim tugas.');
+      } else {
+        const pwd = prompt('Masukkan password untuk role '+role);
+        if(!pwd) return;
+        if((role==='guru' && pwd==='GURULM95') || (role==='admin' && pwd==='ADMINKEREN887')){
+          currentRole = role; alert('Masuk sebagai '+role+'. Kamu bisa melihat daftar pengumpulan.');
+        } else {alert('Password salah. Hubungi admin.'); return}
+      }
+      renderSubmissions();
+    });
+
+    btnExport.addEventListener('click', ()=>{
+      const data = localStorage.getItem(LS_KEY) || '[]';
+      const blob = new Blob([data],{type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download = 'kumpul_tugas_export_'+new Date().toISOString()+'.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+    btnImport.addEventListener('click', ()=>importFile.click());
+    importFile.addEventListener('change', async (e)=>{
+      const f = e.target.files[0]; if(!f) return;
+      try{
+        const txt = await f.text(); const parsed = JSON.parse(txt);
+        if(!Array.isArray(parsed)) throw new Error('Format JSON tidak sesuai');
+        saveSubmissions(parsed); alert('Import berhasil'); renderSubmissions();
+      }catch(err){alert('Gagal import: '+err.message)}
+    });
+
+    (function(){ renderSubmissions(); })();
+  </script>
+</body>
+</html>
