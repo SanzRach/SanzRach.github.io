@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Syukuran 7 Bulan</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fde2e4, #fad2e1, #e2ece9);
+      color: #333;
+      text-align: center;
+    }
+    header {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+    }
+    header h1 {
+      font-size: 2rem;
+      color: #c9184a;
+      margin: 0;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+    .content {
+      padding: 40px 20px;
+    }
+    .verse {
+      font-style: italic;
+      margin: 20px auto;
+      max-width: 600px;
+      background: rgba(255,255,255,0.7);
+      padding: 15px;
+      border-radius: 15px;
+    }
+    .details {
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
+    .button {
+      margin-top: 30px;
+    }
+    .button a {
+      background: #ff4d6d;
+      color: #fff;
+      text-decoration: none;
+      padding: 15px 25px;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .button a:hover {
+      background: #c9184a;
+    }
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    /* tombol play/pause */
+    #music-control {
+      margin-top: 20px;
+      background: #fff;
+      border: 2px solid #c9184a;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #c9184a;
+      transition: 0.3s;
+    }
+    #music-control:hover {
+      background: #c9184a;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Undangan Syukuran 7 Bulan Kehamilan</h1>
+    <p>Dengan sukacita kami mengundang Bapak/Ibu/Saudara/i untuk hadir</p>
+  </header>
+
+  <div class="content">
+    <div class="verse">
+      "Anak-anak adalah milik pusaka dari pada Tuhan, dan buah kandungan adalah suatu upah." <br>
+      <b>Mazmur 127:3</b>
+    </div>
+
+    <div class="details">
+      <p><b>Acara:</b> Syukuran Kehamilan 7 Bulan (Bayi Perempuan)</p>
+      <p><b>Tanggal:</b> 7 September 2025</p>
+      <p><b>Waktu:</b> 14:00 WIB</p>
+      <p><b>Alamat:</b> FP72+HFM Tk. Sheva Jaya, Jl. Raya Rancabungur, Rancabungur, Kec. Ranca Bungur, Kabupaten Bogor, Jawa Barat 16310</p>
+    </div>
+
+    <div class="button">
+      <a href="https://maps.app.goo.gl/8iZVBtr6mbG5yue28?g_st=aw" target="_blank">
+        Buka Google Maps
+      </a>
+    </div>
+
+    <!-- kontrol musik -->
+    <button id="music-control">⏸ Pause Musik</button>
+
+    <!-- musik autoplay -->
+    <audio id="bg-music" src="musik.mp3" autoplay loop></audio>
+  </div>
+
+  <footer>
+    Dengan kasih Kristus, <br>
+    Keluarga yang berbahagia <br>
+    Ferdinand Alexander Cahyadi 
+  </footer>
+
+  <script>
+    const music = document.getElementById('bg-music');
+    const controlBtn = document.getElementById('music-control');
+
+    controlBtn.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        controlBtn.textContent = "⏸ Pause Musik";
+      } else {
+        music.pause();
+        controlBtn.textContent = "▶ Play Musik";
+      }
+    });
+  </script>
+
+</body>
+</html>
