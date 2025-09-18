@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logomelatiroom.png">  	
+  <title>Melati Room</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">  
+  <style>
+  body {
+    font-family: 'Times New Roman', 'Segoe UI', sans-serif;
+  background-color: #fdfdfd;
+  color: #2c2c2c;
+  }
+
+  /* --- Animasi Global Saat Masuk --- */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .slide-in-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: slideInLeft 1s forwards;
+  }
+  @keyframes slideInLeft {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .slide-in-right {
+    opacity: 0;
+    transform: translateX(30px);
+    animation: slideInRight 1s forwards;
+  }
+  @keyframes slideInRight {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+    .navbar {
+      background: linear-gradient(90deg, #1a1a1a, #333);
+    }
+    .navbar-brand, .nav-link {
+      color: #f0d9a1 !important;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .navbar-brand img {
+      height: 30px;
+      margin-right: 10px;
+    }
+    .hero {
+      text-align: center;
+      padding: 120px 20px;
+      background: url('') center/cover no-repeat;
+    }
+    
+ /* Hero animasi */
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #1a1a1a;
+    text-shadow: 1px 1px 4px rgba(255,255,255,0.8);
+    letter-spacing: 1px;
+    animation: fadeInUp 1.2s ease-out;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #4a3f2f;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.7);
+    max-width: 700px;
+    margin: 15px auto 0;
+    animation: fadeInUp 1.5s ease-out;
+  }
+    .facility-list li {
+      margin-bottom: 8px;
+    }
+    .price-box {
+      background: #fff5e1;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .price-box h4 {
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+    .table-custom th {
+      background-color: #f0d9a1 !important;
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+    .table-custom td {
+      background-color: #fff;
+    }
+  /* Booking & Maps agar sama tinggi */
+  .map-box,
+  .booking-box {
+    height: 100%;
+  }
+  .map-box iframe {
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    border: 0;
+  }
+
+  /* Hover animasi untuk card harga & fasilitas */
+.card {
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 8px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+  /* Efek hover pada tombol custom */
+.custom-btn, .btn-success {
+  background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.custom-btn:hover, .btn-success:hover {
+  background: #d4af37;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(212,175,55,0.5);
+}
+
+  /* Efek animasi masuk untuk section */
+  section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease;
+  }
+  section.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* WA tombol di bawah map (desktop), di HP tetap gabung form */
+  .wa-desktop {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .wa-desktop {
+      display: block;
+      margin-top: 20px;
+    }
+    .wa-mobile {
+      display: none;
+    }
+  }    
+  footer {
+    background: #1a1a1a;
+    color: #f0d9a1;
+    padding: 40px 0 20px;
+  }
+  footer a {
+    color: #f0d9a1;
+    text-decoration: none;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }
+  footer .footer-divider {
+    border-top: 1px solid #f0d9a1;
+    margin: 20px auto;
+    width: 60%;
+  }
+    .custom-btn {
+      background-color: #f0d9a1;
+      color: #1a1a1a;
+      font-weight: 600;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
+    .custom-btn:hover {
+      background-color: #d4b873;
+      color: #fff;
+    }
+  .room-gallery img {
+    border-radius: 12px;
+    width: 100%;
+    height: 200px
+    object-fit: cover;
+  }    
+  #roomCarousel img {
+    height: 350px;       /* tinggi gambar default */
+    object-fit: cover;   /* gambar tetap proporsional & crop */
+    border-radius: 12px; /* biar konsisten bulat */
+  }
+  /* Untuk layar medium ke atas (tablet/PC), tingginya lebih besar */
+  @media (min-width: 768px) {
+    #roomCarousel img {
+      height: 600px;
+    }
+  }
+</style>  
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="logomelatiroom.png" alt="Logo Hotel" width="35" height="35" class="me-2">
+      <strong>Melati Room</strong>
+    </a>
+
+    <!-- Tombol toggle (hanya muncul di HP <768px) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menu -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="#home">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="#rooms">Fasilitas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#prices">Harga</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Booking</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <h1>Selamat Datang di Melati Room</h1>
+    <p>Kamar sewa harian dan jam-an yang nyaman, elegan, dan cocok untuk istirahat singkat maupun staycation. Lokasi strategis di Ciputat, Tangerang Selatan, Green Lake View Ciputat.</p>
+  </section>
+
+<!-- Facilities & Rooms Section -->
+<section id="rooms" class="container my-5">
+  <h2 class="text-center mb-4">Fasilitas & Kamar</h2>
+  <div class="row g-4">
+
+    <!-- Slideshow Gambar -->
+    <div class="col-md-6 order-1 order-md-2 mb-4 mb-md-0">
+      <div id="roomCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+        
+        <!-- Indikator bulatan -->
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#roomCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#roomCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#roomCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+
+        <!-- Gambar -->
+        <div class="carousel-inner rounded shadow">
+          <div class="carousel-item active">
+            <img src="kamarmelati1.jpg" class="d-block w-100" alt="Kamar 1">
+          </div>
+          <div class="carousel-item">
+            <img src="kamarmelati2.jpg" class="d-block w-100" alt="Kamar 2">
+          </div>
+          <div class="carousel-item">
+            <img src="kamarmelati3.jpg" class="d-block w-100" alt="Kamar 3">
+          </div>
+        </div>
+
+        <!-- Tombol panah -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Sebelumnya</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#roomCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Berikutnya</span>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Fasilitas -->
+    <div class="col-md-6 order-2 order-md-1">
+      <div class="row g-4">
+        <div class="col-6">
+          <div class="card h-100 text-center shadow-sm">
+            <div class="card-body">
+              <div class="mb-3"><i class="fas fa-snowflake fa-2x text-primary"></i></div>
+              <h5 class="card-title">AC Dingin</h5>
+              <p class="card-text">Pendingin ruangan dengan kontrol suhu digital</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="card h-100 text-center shadow-sm">
+            <div class="card-body">
+              <div class="mb-3"><i class="fas fa-bath fa-2x text-info"></i></div>
+              <h5 class="card-title">Kamar Mandi Pribadi</h5>
+              <p class="card-text">Kamar mandi dalam dengan shower air hangat</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="card h-100 text-center shadow-sm">
+            <div class="card-body">
+              <div class="mb-3"><i class="fas fa-tv fa-2x text-secondary"></i></div>
+              <h5 class="card-title">TV</h5>
+              <p class="card-text">Channel lokal & internasional</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="card h-100 text-center shadow-sm">
+            <div class="card-body">
+              <div class="mb-3"><i class="fas fa-shower fa-2x text-warning"></i></div>
+              <h5 class="card-title">Perlengkapan Mandi</h5>
+              <p class="card-text">Sabun, shampoo & handuk bersih</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="card h-100 text-center shadow-sm">
+            <div class="card-body">
+              <div class="mb-3"><i class="fas fa-shield-alt fa-2x text-secondary"></i></div>
+              <h5 class="card-title">Keamanan 24/7</h5>
+              <p class="card-text">Sistem keamanan dengan akses kartu digital</p>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Prices Section -->
+<section id="prices" class="container my-5">
+  <h2 class="text-center mb-4">Harga Kamar</h2>
+    <!-- Tagline Harga -->
+  <p class="text-center mt-4 text-muted">
+    Nikmati kenyamanan dengan harga yang ramah di kantong. Tanpa biaya tersembunyi, semua sudah termasuk.
+  </p>
+  <div class="row g-4 justify-content-center">
+    <!-- Weekday -->
+    <div class="col-md-5">
+      <div class="card shadow-sm h-100 border-warning">
+        <div class="card-body">
+          <h4 class="card-title text-center fw-bold">Hari Biasa</h4>
+          <p class="text-center text-muted">Senin - Jumat</p>
+          <ul class="list-unstyled mb-4">
+            <li class="d-flex justify-content-between"><span>3 Jam</span> <strong class="text-warning">Rp 150.000</strong></li>
+            <li class="d-flex justify-content-between"><span>6 Jam</span> <strong class="text-warning">Rp 200.000</strong></li>
+            <li class="d-flex justify-content-between"><span>Full Day</span> <strong class="text-warning">Rp 250.000</strong></li>
+          </ul>
+          <ul class="text-muted">
+            <li>Semua fasilitas termasuk</li>
+            <li>Ideal untuk business trip</li>
+            <li>Check-in fleksibel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekend -->
+    <div class="col-md-5">
+      <div class="card shadow-sm h-100 border-warning">
+        <div class="card-body">
+          <h4 class="card-title text-center fw-bold">Weekend</h4>
+          <p class="text-center text-muted">Sabtu - Minggu & Hari Libur</p>
+          <ul class="list-unstyled mb-4">
+            <li class="d-flex justify-content-between"><span>3 Jam</span> <strong class="text-warning">Rp 200.000</strong></li>
+            <li class="d-flex justify-content-between"><span>6 Jam</span> <strong class="text-warning">Rp 250.000</strong></li>
+            <li class="d-flex justify-content-between"><span>Full Day</span> <strong class="text-warning">Rp 300.000</strong></li>
+          </ul>
+          <ul class="text-muted">
+            <li>Semua fasilitas termasuk</li>
+            <li>Perfect untuk staycation</li>
+            <li>Weekend relaxation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Policies -->
+  <section id="policies" class="container my-5">
+    <h2 class="text-center mb-4">Kebijakan</h2>
+    <ul>
+      <li>Check-in cepat, tidak ribet.</li>
+      <li>Pembayaran tunai / transfer; konfirmasi via WA.</li>
+      <li>Dilarang merokok di dalam kamar</li>
+      <li>Hubungi kami minimal 1 jam sebelum jika ingin membatalkan.</li>
+    </ul>
+  </section>
+  
+<!-- Contact & Map -->
+<section id="contact" class="container my-5">
+  <h2 class="text-center mb-4">Kontak & Lokasi</h2>
+  <div class="row g-4 align-items-stretch">
+    <!-- Map -->
+    <div class="col-12 col-md-6 order-1 order-md-2 d-flex flex-column">
+      <div class="map-box flex-grow-1">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.135498124958!2d106.74616537588941!3d-6.246743061183132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f0352b88b2bb%3A0x3dbb9b9a31c8e0d5!2sJl.%20Dewi%20Sartika%20No.34%2C%20Ciputat%2C%20Tangerang%20Selatan!5e0!3m2!1sid!2sid!4v1694950820000!5m2!1sid!2sid"
+          allowfullscreen loading="lazy"></iframe>
+      </div>
+      <!-- WhatsApp (desktop) -->
+      <div class="wa-desktop card shadow-sm border-0 rounded-3 p-3 mt-3">
+        <h5 class="fw-bold mb-3"><i class="fab fa-whatsapp text-success me-2"></i>Booking via WhatsApp</h5>
+        <div class="d-flex flex-column gap-2">
+          <button type="button" class="btn btn-success" onclick="kirimWA('6285136004678')">
+            <i class="fab fa-whatsapp me-2"></i> Admin 1
+          </button>
+          <button type="button" class="btn btn-success" onclick="kirimWA('6285119807249')">
+            <i class="fab fa-whatsapp me-2"></i> Admin 2
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Booking -->
+    <div class="col-12 col-md-6 order-2 order-md-1 d-flex">
+      <div class="card shadow-sm border-0 rounded-3 p-4 booking-box flex-grow-1">
+        <form id="bookingForm">
+          <!-- Tanggal -->
+          <div class="mb-3">
+            <label for="tanggal" class="form-label fw-bold"><i class="fas fa-calendar-alt me-2"></i>Tanggal Check-in</label>
+            <input type="date" id="tanggal" name="tanggal" class="form-control" required>
+          </div>
+          <!-- Paket -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">
+              <i class="fas fa-tags me-2 text-primary"></i>Paket yang Berlaku
+            </label>
+            <input type="text" id="paket" class="form-control" readonly placeholder="Mohon isi tanggal dulu">
+          </div>
+          <!-- Durasi -->
+          <div class="mb-3" id="durasiWrapper" style="display:none;">
+            <label class="form-label fw-bold">
+              <i class="fas fa-clock me-2 text-primary"></i>Pilih Durasi
+            </label>
+            <div id="durasiOptions"></div>
+          </div>
+          <!-- Catatan -->
+          <div class="mb-3">
+            <label for="catatan" class="form-label fw-bold"><i class="fas fa-sticky-note me-2"></i>Catatan Tambahan (Opsional)</label>
+            <textarea id="catatan" class="form-control" rows="3" placeholder="..."></textarea>
+          </div>
+          <!-- WhatsApp (mobile only) -->
+          <div class="mb-3 wa-mobile">
+            <label class="form-label fw-bold">
+              <i class="fab fa-whatsapp me-2 text-success"></i>Booking via WhatsApp
+            </label>
+            <div class="d-flex flex-column gap-2">
+              <button type="button" class="btn btn-success" onclick="kirimWA('6285136004678')">
+                <i class="fab fa-whatsapp me-2"></i> Admin 1
+              </button>
+              <button type="button" class="btn btn-success" onclick="kirimWA('6285119807249')">
+                <i class="fab fa-whatsapp me-2"></i> Admin 2
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-4 mt-5 border-top">
+  <div class="container">
+    <div class="row text-center text-md-start align-items-start">
+      
+      <!-- Kolom 1: Logo + Deskripsi -->
+      <div class="col-md-4 mb-4">
+        <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-2">
+          <img src="logomelatiroom.png" alt="Logo Melati Room" width="40" height="40" class="me-2">
+          <span class="fw-bold fs-5 align-middle">Melati Room</span>
+        </div>
+        <p class="mb-0">
+          Ruang nyaman dengan harga ramah yang berlokasi di 
+          <strong>Green Lake View Ciputat</strong>, Tangerang Selatan.<br>
+          Kenyamanan dengan pelayanan terbaik.
+        </p>
+      </div>
+
+      <!-- Kolom 2: Kontak -->
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold mb-3">Kontak</h5>
+        <p class="mb-2">
+          <i class="fab fa-whatsapp text-success me-2"></i>
+          <a href="https://wa.me/6285136004678" target="_blank" class="text-decoration-none text-gold">+62 851-3600-4678</a>
+        </p>
+        <p class="mb-2">
+          <i class="fab fa-whatsapp text-success me-2"></i>
+          <a href="https://wa.me/6285119807249" target="_blank" class="text-decoration-none text-gold">+62 851-1980-7249</a>
+        </p>
+        <p class="mb-0">
+          <i class="fab fa-instagram text-danger me-2"></i>
+          <a href="https://www.instagram.com/melati_roomr" target="_blank" class="text-decoration-none text-gold">@melati_roomr</a>
+        </p>
+      </div>
+
+      <!-- Kolom 3: Alamat & Operasional -->
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold mb-3">Alamat</h5>
+        <p class="mb-2">
+          <i class="fas fa-map-marker-alt me-2"></i>
+          Jl. Dewi Sartika No.34, Ciputat, Tangerang Selatan
+        </p>
+        <p class="mb-0">
+          <i class="fas fa-clock me-2"></i> Operasional: 24/7
+        </p>
+      </div>
+
+    </div>
+    <div class="text-center pt-3 border-top mt-3">
+      <small>&copy; 2025 Melati Room | All Rights Reserved</small>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+	
+  const sections = document.querySelectorAll("section");
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  }, { threshold: 0.2 });
+
+  sections.forEach(sec => observer.observe(sec));	
+  // Salam
+  function getSalam() {
+    const jam = new Date().getHours();
+    if (jam < 12) return "Selamat pagi";
+    if (jam < 15) return "Selamat siang";
+    if (jam < 18) return "Selamat sore";
+    return "Selamat malam";
+  }
+
+  // Ambil nama hari
+  function getNamaHari(dateStr) {
+    const hariList = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+    const d = new Date(dateStr);
+    return hariList[d.getDay()];
+  }
+
+  // Paket sesuai tanggal
+  function getPaketByDate(dateStr) {
+    const date = new Date(dateStr);
+    const hari = date.getDay(); // 0=Min,6=Sabtu
+    return (hari === 0 || hari === 6) ? "Weekend" : "Weekday";
+  }
+
+  // Data harga
+  const hargaPaket = {
+    "Weekday": {
+      "3 Jam": "Rp 150.000",
+      "6 Jam": "Rp 200.000",
+      "Full Day": "Rp 250.000"
+    },
+    "Weekend": {
+      "3 Jam": "Rp 200.000",
+      "6 Jam": "Rp 250.000",
+      "Full Day": "Rp 300.000"
+    }
+  };
+
+  // Saat tanggal dipilih
+  document.getElementById("tanggal").addEventListener("change", function () {
+    const tanggal = this.value;
+    if (!tanggal) return;
+    const paket = getPaketByDate(tanggal);
+    document.getElementById("paket").value = paket;
+
+    // Buat pilihan durasi
+    const durasiWrapper = document.getElementById("durasiWrapper");
+    const durasiOptions = document.getElementById("durasiOptions");
+    durasiOptions.innerHTML = "";
+    Object.entries(hargaPaket[paket]).forEach(([durasi, harga], i) => {
+      durasiOptions.innerHTML += `
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="harga" value="${durasi}" id="opt${i}">
+          <label class="form-check-label" for="opt${i}">
+            ${durasi} - <strong class="text-warning">${harga}</strong>
+          </label>
+        </div>`;
+    });
+    durasiWrapper.style.display = "block";
+  });
+
+  // Kirim WA
+  function kirimWA(wa) {
+    const tanggal = document.getElementById("tanggal").value;
+    const durasi = document.querySelector("input[name='harga']:checked")?.value;
+    const catatan = document.getElementById("catatan").value;
+    const paket = document.getElementById("paket").value;
+
+    if (!tanggal || !durasi) {
+      alert("Mohon isi tanggal dan pilih durasi terlebih dahulu!");
+      return;
+    }
+
+    const hariNama = getNamaHari(tanggal);
+    const harga = hargaPaket[paket][durasi];
+
+    let pesan = `${getSalam()}, saya ingin reservasi.%0A%0A`;
+    pesan += `📅 *Tanggal*: ${hariNama}, ${tanggal}%0A`;
+    pesan += `🎟️ *Paket*: ${paket}%0A`;
+    pesan += `⏳ *Durasi*: ${durasi}%0A`;
+    pesan += `💰 *Harga*: ${harga}%0A`;
+    if (catatan) pesan += `📝 *Catatan*: ${catatan}%0A`;
+    pesan += `%0ATerima kasih. 🙏`;
+
+    window.open(`https://wa.me/${wa}?text=${pesan}`, "_blank");
+  }
+</script>
+</body>
+</html>
